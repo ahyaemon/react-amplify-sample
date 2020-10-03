@@ -37,3 +37,33 @@ export const onDeleteTodo = /* GraphQL */ `
     }
   }
 `;
+export const onCreateCat = /* GraphQL */ `
+  subscription OnCreateCat {
+    onCreateCat {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateCat = /* GraphQL */ `
+  subscription OnUpdateCat {
+    onUpdateCat {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteCat = /* GraphQL */ `
+  subscription OnDeleteCat {
+    onDeleteCat {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;

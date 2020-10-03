@@ -32,3 +32,30 @@ export const listTodos = /* GraphQL */ `
     }
   }
 `;
+export const getCat = /* GraphQL */ `
+  query GetCat($id: ID!) {
+    getCat(id: $id) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listCats = /* GraphQL */ `
+  query ListCats(
+    $filter: ModelCatFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCats(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

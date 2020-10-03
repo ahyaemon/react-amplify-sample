@@ -1,3 +1,8 @@
+# 進捗
+これが終わった
+https://docs.amplify.aws/start/getting-started/data-model/q/integration/react#connect-frontend-to-api
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

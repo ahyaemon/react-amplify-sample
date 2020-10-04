@@ -1,12 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import logo from './logo.svg';
-// import './App.css';
-import {Amplify, API, graphqlOperation} from 'aws-amplify'
+import {Auth, Amplify, API, graphqlOperation} from 'aws-amplify'
 
 import awsExports from './aws-exports'
 import {listTodos} from './graphql/queries'
 import {createTodo} from './graphql/mutations'
-import {withAuthenticator} from '@aws-amplify/ui-react'
 Amplify.configure(awsExports)
 
 const initialState = { name: '', description: '' }
@@ -46,8 +43,18 @@ function App() {
     }
   }
 
+  function handleSignOutClick() {
+    Auth.signOut()
+        .then(response => {
+          localStorage.removeItem("token")
+        })
+        .catch(e => console.log(e))
+  }
+
   return (
       <div style={styles.container}>
+        <button type="button" onClick={handleSignOutClick}>sign out</button>
+        <hr/>
         <h2>Amplify Todos</h2>
         <input
           onChange={event => setInput('name', event.target.value)}
@@ -85,4 +92,4 @@ const styles = {
   button: { backgroundColor: 'black', color: 'white', outline: 'none', fontSize: 18, padding: '12px 0px' }
 }
 
-export default withAuthenticator(App);
+export default App;

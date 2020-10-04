@@ -6,12 +6,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import NeedAuth from './NeedAuth'
 
 Amplify.configure(awsExports);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <NeedAuth>
+          <App />
+      </NeedAuth>
   </React.StrictMode>,
   document.getElementById('root')
 );

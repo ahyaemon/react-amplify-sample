@@ -30,6 +30,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ env.project-name }}-
 
+      - name: Package Install
+        run: yarn install
+
       - name: Build
         run: yarn build
 

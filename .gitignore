@@ -39,4 +39,5 @@ amplify-gradle-config.json
 amplifytools.xcconfig
 
 **/.terraform
+**/terraform.tfstate.backup
 .idea

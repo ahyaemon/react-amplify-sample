@@ -31,7 +31,6 @@ amplify/backend/awscloudformation
 build/
 dist/
 node_modules/
-aws-exports.js
 awsconfiguration.json
 amplifyconfiguration.json
 amplify-build-config.json
@@ -43,3 +42,5 @@ amplifytools.xcconfig
 **/terraform.tfstate.*.backup
 .idea
 **/.terraform.tfstate.lock.info
+aws-exports.backup.js
+.env

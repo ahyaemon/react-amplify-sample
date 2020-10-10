@@ -3,6 +3,8 @@ resource "aws_iam_user" "github_actions_deploy" {
   force_destroy = true
 }
 
+data "aws_caller_identity" "current" {}
+
 data "aws_iam_policy_document" "policy_document" {
   version = "2012-10-17"
   statement {
@@ -41,6 +43,16 @@ data "aws_iam_policy_document" "policy_document" {
     ]
     resources = [
       "*"
+    ]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "ssm:GetParametersByPath",
+    ]
+    resources = [
+      "arn:aws:ssm:ap-northeast-1:${data.aws_caller_identity.current.account_id}:parameter/cognito"
     ]
   }
 }

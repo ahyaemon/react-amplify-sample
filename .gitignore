@@ -40,4 +40,6 @@ amplifytools.xcconfig
 
 **/.terraform
 **/terraform.tfstate.backup
+**/terraform.tfstate.*.backup
 .idea
+**/.terraform.tfstate.lock.info

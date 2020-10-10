@@ -43,6 +43,7 @@ jobs:
           ssm-path: /cognito
           output: .env
           prefix: REACT_APP_
+          decryption: true
 
       - name: Show .env file
         run: cat .env

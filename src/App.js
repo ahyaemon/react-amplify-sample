@@ -35,7 +35,7 @@ function App() {
                             <Link to="/signin">Sign In</Link>
                         </li>
                         <li>
-                            <a href="#" onClick={handleSignOutClick}>Sign Out</a>
+                            <button type="button" onClick={handleSignOutClick}>Sign Out</button>
                         </li>
                     </ul>
                     <hr/>

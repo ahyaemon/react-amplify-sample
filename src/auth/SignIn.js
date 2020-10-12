@@ -1,19 +1,23 @@
-import React, {useState} from 'react'
-import {Link} from 'react-router-dom'
+import React, {useContext, useState} from 'react'
+import {Link, useHistory} from 'react-router-dom'
 import { Auth } from 'aws-amplify'
+import {AuthContext} from '../context/Provider'
 
 function SignIn() {
+    const authContext = useContext(AuthContext)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const history = useHistory()
 
     function handleSignInClick() {
         Auth.signIn(email, password)
-            .then(res => { console.log(res) })
-            .catch(e => { console.log('error sign in', e)})
-    }
-
-    function handleCheckClick() {
-        Auth.currentAuthenticatedUser().then(r => {console.log(r)})
+            .then(res => {
+                authContext.signIn()
+                history.push('/')
+            })
+            .catch(e => {
+                history.push('/error')
+            })
     }
 
     return(
@@ -26,10 +30,7 @@ function SignIn() {
                 </div>
                 <div>
                     password:
-                    <input type="text" value={password} onChange={ (e) => { setPassword(e.target.value) } }/>
-                </div>
-                <div>
-                    <button type="button" onClick={handleCheckClick}>Check</button>
+                    <input type="password" value={password} onChange={ (e) => { setPassword(e.target.value) } }/>
                 </div>
                 <div>
                     <button type="button" onClick={handleSignInClick}>Sign In</button>

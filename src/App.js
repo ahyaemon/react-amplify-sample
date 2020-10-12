@@ -1,10 +1,11 @@
-import React from 'react'
+import React, {useContext, useEffect} from 'react'
 import {BrowserRouter, Link, Route, Switch} from 'react-router-dom'
 import Top from './top/Top'
 import SignIn from './auth/SignIn'
 import SignUp from './auth/SignUp'
 import SignUpConfirm from './auth/SignUpConfirm'
 import { Auth } from 'aws-amplify'
+import {AuthContext} from './context/Provider'
 
 const styles = {
     app: {
@@ -17,8 +18,24 @@ const styles = {
 }
 
 function App() {
+    const authContext = useContext(AuthContext)
+
+    useEffect(() => {
+        async function fn() {
+            Auth.currentUserCredentials()
+                .catch(e => {
+                    authContext.signOut()
+                })
+        }
+        fn().catch(e => { console.log(e) })
+    }, [])
+
     function handleSignOutClick() {
-        Auth.signOut().then(res => { console.log({ message: 'sign out: ok', res }) }).catch(e => { console.log(e) })
+        Auth.signOut()
+            .then(res => {
+                authContext.signOut()
+            })
+            .catch(e => { console.log(e) })
     }
 
     return (
@@ -31,12 +48,17 @@ function App() {
                         </Link>
                     </h1>
                     <ul>
-                        <li>
-                            <Link to="/signin">Sign In</Link>
-                        </li>
-                        <li>
-                            <button type="button" onClick={handleSignOutClick}>Sign Out</button>
-                        </li>
+                        { !authContext.authState.signedIn &&
+                            <li>
+                                <Link to="/signin">Sign In</Link>
+                            </li>
+                        }
+
+                        { authContext.authState.signedIn &&
+                            <li>
+                                <button type="button" onClick={handleSignOutClick}>Sign Out</button>
+                            </li>
+                        }
                     </ul>
                     <hr/>
                 </div>

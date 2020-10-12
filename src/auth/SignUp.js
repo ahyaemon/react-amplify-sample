@@ -10,8 +10,6 @@ function SignUp() {
     const history = useHistory()
 
     async function handleSignUpClick() {
-        console.log({ username, email, password })
-
         try {
             const { user } = await Auth.signUp({
                 username,
@@ -20,10 +18,9 @@ function SignUp() {
                     email,
                 }
             });
-            console.log(user)
             history.push("/signup-confirm")
         } catch (error) {
-            console.log('error signing up:', error);
+            history.push('/error')
         }
     }
 
@@ -41,7 +38,7 @@ function SignUp() {
                 </div>
                 <div>
                     password:
-                    <input type="text" value={password} onChange={ (e) => { setPassword(e.target.value) } }/>
+                    <input type="password" value={password} onChange={ (e) => { setPassword(e.target.value) } }/>
                 </div>
                 <div>
                     <button type="button" onClick={handleSignUpClick}>Sign Up</button>

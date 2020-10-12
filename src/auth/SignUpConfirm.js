@@ -1,16 +1,20 @@
 import React, {useState} from 'react'
 import { Auth } from 'aws-amplify'
+import { useHistory } from 'react-router-dom'
 
 function SignUpConfirm() {
     const [username, setUsername] = useState("")
     const [code, setCode] = useState("")
+    const history = useHistory()
 
     function handleConfirmClick() {
         Auth.confirmSignUp(username, code)
             .then(res => {
-                console.log({ message: 'confirm: ok', res})
+                history.push('/signin')
             })
-            .catch(e => { console.log(e) })
+            .catch(e => {
+                history.push('/error')
+            })
     }
 
     return (

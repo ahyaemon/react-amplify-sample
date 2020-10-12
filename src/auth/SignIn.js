@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import {Link, useHistory} from 'react-router-dom'
 import { Auth } from 'aws-amplify'
-import {AuthContext} from '../context/Provider'
+import {AuthContext} from '../context/AuthProvider'
 
 function SignIn() {
     const authContext = useContext(AuthContext)

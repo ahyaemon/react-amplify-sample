@@ -5,7 +5,7 @@ import SignIn from './auth/SignIn'
 import SignUp from './auth/SignUp'
 import SignUpConfirm from './auth/SignUpConfirm'
 import { Auth } from 'aws-amplify'
-import {AuthContext} from './context/Provider'
+import {AuthContext} from './context/AuthProvider'
 
 const styles = {
     app: {

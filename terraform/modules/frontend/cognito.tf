@@ -49,3 +49,37 @@ resource "aws_cognito_user_pool_domain" "domain" {
   domain = "ahyaemon-amplify-sample"
   user_pool_id = aws_cognito_user_pool.user_pool.id
 }
+
+data "aws_secretsmanager_secret" "secret" {
+  name = "cognito/google"
+}
+
+data "aws_secretsmanager_secret_version" "secret_version" {
+  secret_id = data.aws_secretsmanager_secret.secret.id
+}
+
+resource "aws_cognito_identity_provider" "provider" {
+  user_pool_id = aws_cognito_user_pool.user_pool.id
+  provider_name = "Google"
+  provider_type = "Google"
+
+  provider_details = {
+    authorize_scopes = "profile email openid"
+    client_id = jsondecode(data.aws_secretsmanager_secret_version.secret_version.secret_string)["client_id"]
+    client_secret = jsondecode(data.aws_secretsmanager_secret_version.secret_version.secret_string)["client_secret"]
+
+    attributes_url = "https://people.googleapis.com/v1/people/me?personFields="
+    attributes_url_add_attributes = true
+    authorize_url                 = "https://accounts.google.com/o/oauth2/v2/auth"
+    oidc_issuer                   = "https://accounts.google.com"
+    token_request_method          = "POST"
+    token_url                     = "https://www.googleapis.com/oauth2/v4/token"
+  }
+
+  attribute_mapping = {
+    email = "email"
+    email_verified = "email_verified"
+    name = "name"
+    username = "sub"
+  }
+}

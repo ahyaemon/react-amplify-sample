@@ -16,7 +16,7 @@ resource "aws_cognito_user_pool" "user_pool" {
   schema {
     attribute_data_type      = "String"
     developer_only_attribute = false
-    mutable                  = false
+    mutable                  = true
     name                     = "email"
     required                 = true
 
@@ -33,13 +33,13 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
 
   allowed_oauth_flows                  = ["code"]
   allowed_oauth_flows_user_pool_client = true
-  allowed_oauth_scopes                 = ["email", "openid", "aws.cognito.signin.user.admin"]
+  allowed_oauth_scopes                 = ["email", "openid", "profile", "aws.cognito.signin.user.admin"]
   callback_urls                        = ["http://localhost:3000/"]
   logout_urls                          = ["http://localhost:3000/"]
 
   prevent_user_existence_errors = "LEGACY"
   refresh_token_validity        = 30
-  supported_identity_providers  = ["COGNITO"]
+  supported_identity_providers  = ["COGNITO", "Google"]
 
   explicit_auth_flows = ["ALLOW_CUSTOM_AUTH", "ALLOW_REFRESH_TOKEN_AUTH", "ALLOW_USER_SRP_AUTH"]
   generate_secret     = false

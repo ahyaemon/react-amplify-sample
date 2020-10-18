@@ -20,6 +20,17 @@ function SignIn() {
             })
     }
 
+    function handleGoogleSignInClick() {
+        Auth.federatedSignIn({ provider: 'Google' })
+            .then(res => {
+                console.log(res)
+            })
+            .catch(e => {
+                console.log(e)
+            })
+        console.log('test')
+    }
+
     return(
         <div>
             sign in
@@ -36,7 +47,9 @@ function SignIn() {
                     <button type="button" onClick={handleSignInClick}>Sign In</button>
                 </div>
             </form>
-
+            <hr/>
+            <button onClick={handleGoogleSignInClick}>sign in with google</button>
+            <hr/>
             <Link to="/signup">Sign Up</Link>
         </div>
     )

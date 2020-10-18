@@ -4,16 +4,16 @@ resource "aws_s3_bucket" "s3_bucket" {
 }
 
 data "aws_iam_policy_document" "cloudfront_access_policy_document" {
-  version = "2012-10-17"
+  version   = "2012-10-17"
   policy_id = "cloudfront_access"
   statement {
-    sid = "1"
+    sid    = "1"
     effect = "Allow"
     principals {
       identifiers = [aws_cloudfront_origin_access_identity.cloudfront_origin_access_identity.iam_arn]
-      type = "AWS"
+      type        = "AWS"
     }
-    actions = ["s3:GetObject"]
+    actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.s3_bucket.arn}/*"]
   }
 }

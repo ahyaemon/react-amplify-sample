@@ -19,15 +19,18 @@ const styles = {
 
 function App() {
     const authContext = useContext(AuthContext)
-
     useEffect(() => {
         async function fn() {
-            Auth.currentUserCredentials()
-                .catch(e => {
-                    authContext.signOut()
-                })
+            try {
+                const session = await Auth.currentSession()
+                console.log('sign in: ', session)
+                authContext.signIn()
+            } catch (e) {
+                console.log('sign out')
+                authContext.signOut()
+            }
         }
-        fn().catch(e => { console.log(e) })
+        fn().catch(e => {console.log(e)})
     }, [])
 
     function handleSignOutClick() {

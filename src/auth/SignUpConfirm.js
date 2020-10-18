@@ -4,10 +4,10 @@ import { useHistory } from 'react-router-dom'
 import {AuthConfirmContext} from '../context/AuthConfirmProvider'
 
 function SignUpConfirm() {
-    const [username, setUsername] = useState("")
+    const authConfirmContext = useContext(AuthConfirmContext)
+    const [username] = useState(authConfirmContext.authConfirmState.name)
     const [code, setCode] = useState("")
     const history = useHistory()
-    const authConfirmContext = useContext(AuthConfirmContext)
 
     function handleConfirmClick() {
         Auth.confirmSignUp(username, code)
@@ -23,8 +23,8 @@ function SignUpConfirm() {
         <div>
             confirm
             <div>
-                email:
-                <input type="text" value={authConfirmContext.authConfirmState.email} onChange={ e => { setUsername(e.target.value) }}/>
+                username:
+                <input type="text" value={username} readOnly/>
             </div>
             <div>
                 code:

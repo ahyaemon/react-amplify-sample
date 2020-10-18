@@ -1,12 +1,12 @@
 import React, {useState} from 'react'
 
 const authConfirmInitialState = {
-    email: '',
+    name: '',
 }
 
 const authConfirmInitialContext = {
     authConfirmState: authConfirmInitialState,
-    setEmail: (email) => {},
+    setName: (name) => {}
 }
 
 export const AuthConfirmContext = React.createContext(authConfirmInitialContext)
@@ -14,11 +14,11 @@ export const AuthConfirmContext = React.createContext(authConfirmInitialContext)
 export const AuthConfirmProvider = ({ children }) => {
     const [authConfirmState, setAuthConfirmState] = useState(authConfirmInitialState)
 
-    function setEmail(email) {
-        setAuthConfirmState({ email })
+    function setName(name) {
+        setAuthConfirmState({ name })
     }
     return (
-        <AuthConfirmContext.Provider value={{ authConfirmState, setEmail }}>
+        <AuthConfirmContext.Provider value={{ authConfirmState, setName }}>
             {children}
         </AuthConfirmContext.Provider>
     )

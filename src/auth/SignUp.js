@@ -21,7 +21,7 @@ function SignUp() {
                     email,
                 }
             });
-            authConfirmContext.setEmail(email)
+            authConfirmContext.setName(username)
             history.push("/signup-confirm")
         } catch (error) {
             console.log(error)

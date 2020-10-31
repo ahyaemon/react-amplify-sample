@@ -14,7 +14,7 @@ function SignUp() {
 
     async function handleSignUpClick() {
         try {
-            const { user } = await Auth.signUp({
+            await Auth.signUp({
                 username: username,
                 password,
                 attributes: {

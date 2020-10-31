@@ -31,7 +31,7 @@ function App() {
             }
         }
         fn().catch(e => {console.log(e)})
-    }, [])
+    }, [authContext])
 
     function handleSignOutClick() {
         Auth.signOut()

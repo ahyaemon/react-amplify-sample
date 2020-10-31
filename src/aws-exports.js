@@ -20,5 +20,4 @@ const configure = {
     },
 };
 
-
 export default configure;

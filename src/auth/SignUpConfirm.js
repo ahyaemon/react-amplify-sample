@@ -1,16 +1,22 @@
-import React, {useState} from 'react'
+import React, {useContext, useState} from 'react'
 import { Auth } from 'aws-amplify'
+import { useHistory } from 'react-router-dom'
+import {AuthConfirmContext} from '../context/AuthConfirmProvider'
 
 function SignUpConfirm() {
-    const [username, setUsername] = useState("")
+    const authConfirmContext = useContext(AuthConfirmContext)
+    const [username] = useState(authConfirmContext.authConfirmState.name)
     const [code, setCode] = useState("")
+    const history = useHistory()
 
     function handleConfirmClick() {
         Auth.confirmSignUp(username, code)
             .then(res => {
-                console.log({ message: 'confirm: ok', res})
+                history.push('/signin')
             })
-            .catch(e => { console.log(e) })
+            .catch(e => {
+                history.push('/error')
+            })
     }
 
     return (
@@ -18,7 +24,7 @@ function SignUpConfirm() {
             confirm
             <div>
                 username:
-                <input type="text" value={username} onChange={ e => { setUsername(e.target.value) }}/>
+                <input type="text" value={username} readOnly/>
             </div>
             <div>
                 code:

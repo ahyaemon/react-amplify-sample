@@ -1,5 +1,5 @@
 resource "aws_iam_user" "github_actions_deploy" {
-  name = "github_actions_deploy"
+  name          = "github_actions_deploy"
   force_destroy = true
 }
 

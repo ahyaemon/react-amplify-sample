@@ -2,8 +2,6 @@ resource "aws_dynamodb_table" "todos_table" {
   name           = "Todos"
   hash_key       = "id"
   billing_mode = "PAY_PER_REQUEST"
-  write_capacity = 10
-  read_capacity = 10
 
   attribute {
     name = "id"

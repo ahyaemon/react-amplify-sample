@@ -130,7 +130,11 @@ resource "aws_appsync_resolver" "getTodo" {
 }
 EOF
   response_template = <<EOF
-$util.toJson($ctx.result)
+#if($ctx.result["owner"] == $context.identity.username)
+    $util.toJson($ctx.result)
+#else
+    $utils.unauthorized()
+#end
 EOF
 }
 

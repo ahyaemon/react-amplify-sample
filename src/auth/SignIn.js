@@ -12,7 +12,7 @@ function SignIn() {
     function handleSignInClick() {
         Auth.signIn(email, password)
             .then(res => {
-                authContext.signIn()
+                authContext.signIn(res.username, res.username)
                 history.push('/')
             })
             .catch(e => {
@@ -28,7 +28,6 @@ function SignIn() {
             .catch(e => {
                 console.log(e)
             })
-        console.log('test')
     }
 
     return(

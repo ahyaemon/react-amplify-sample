@@ -1,13 +1,15 @@
 import React, {useState} from 'react'
 
 const authInitialState = {
-    signedIn: false
+    name: "",
+    cognitoUsername: "",
+    signedIn: false,
 }
 
 const authInitialContext = {
     authState: authInitialState,
-    signIn: () => {},
-    signOut: () => {}
+    signIn: (name, cognitoUsernamae) => {},
+    signOut: () => {},
 }
 
 export const AuthContext = React.createContext(authInitialContext)
@@ -15,12 +17,20 @@ export const AuthContext = React.createContext(authInitialContext)
 export const AuthProvider = ({ children }) => {
     const [authState, setAuthState] = useState(authInitialState)
 
-    function signIn() {
-        setAuthState({signedIn: true})
+    function signIn(name, cognitoUsername) {
+        setAuthState({
+            name,
+            cognitoUsername,
+            signedIn: true
+        })
     }
 
     function signOut() {
-        setAuthState({ signedIn: false })
+        setAuthState({
+            name: '',
+            cognitoUsername: '',
+            signedIn: false
+        })
     }
 
     return (

@@ -6,6 +6,7 @@ import SignUp from './auth/SignUp'
 import SignUpConfirm from './auth/SignUpConfirm'
 import { Auth } from 'aws-amplify'
 import {AuthContext} from './context/AuthProvider'
+import Todos from './todos/Todos'
 
 const styles = {
     app: {
@@ -24,14 +25,24 @@ function App() {
             try {
                 const session = await Auth.currentSession()
                 console.log('sign in: ', session)
-                authContext.signIn()
+
+                const payload = session.getIdToken().decodePayload()
+                console.log(payload)
+
+                let name = payload.name
+                if (!name) {
+                    name = payload["cognito:username"]
+                }
+
+                authContext.signIn(name, payload["cognito:username"])
             } catch (e) {
                 console.log('sign out')
                 authContext.signOut()
             }
         }
         fn().catch(e => {console.log(e)})
-    }, [authContext])
+        // eslint-disable-next-line
+    }, [])
 
     function handleSignOutClick() {
         Auth.signOut()
@@ -50,17 +61,26 @@ function App() {
                             Ahyaemon Amplify Sample
                         </Link>
                     </h1>
+                    { authContext.authState.signedIn &&
+                        <p>hello, {authContext.authState.name}</p>
+                    }
                     <ul>
                         { !authContext.authState.signedIn &&
                             <li>
                                 <Link to="/signin">Sign In</Link>
                             </li>
                         }
-
                         { authContext.authState.signedIn &&
                             <li>
                                 <button type="button" onClick={handleSignOutClick}>Sign Out</button>
                             </li>
+                        }
+                        { authContext.authState.signedIn &&
+                        <li>
+                            <Link to="/todos">
+                                TODO
+                            </Link>
+                        </li>
                         }
                     </ul>
                     <hr/>
@@ -77,6 +97,9 @@ function App() {
                     </Route>
                     <Route exact path="/signup-confirm">
                         <SignUpConfirm/>
+                    </Route>
+                    <Route exact path="/todos">
+                        <Todos/>
                     </Route>
                 </Switch>
             </div>

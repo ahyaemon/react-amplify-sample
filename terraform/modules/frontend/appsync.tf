@@ -18,18 +18,20 @@ schema {
     mutation: Mutation
 }
 type Mutation {
-    createTodo(title: String!): Todo
+    createTodo(title: String!, owner: String!): Todo
 }
 type Query {
-    listTodos(count: Int, nextToken: String): PaginatedTodos!
+    listTodos(count: Int, nextToken: String): PaginatedTodos
     getTodo(id: ID!): Todo
+    allTodos: [Todo]
 }
 type Todo {
     id: ID!
     title: String!
+    owner: String!
 }
 type PaginatedTodos {
-    todos: [Todo!]!
+    todos: [Todo]
     nextToken: String
 }
 EOF
@@ -151,10 +153,35 @@ resource "aws_appsync_resolver" "listTodos" {
 EOF
   response_template = <<EOF
 {
-    "posts": $utils.toJson($ctx.result.items)
+    #set($myResults = [])
+    #foreach($item in $ctx.result.items)
+        #if($item.owner == $ctx.identity.username)
+            #set($added = $myResults.add($item))
+        #end
+    #end
+
+    "todos": $utils.toJson($myResults)
     #if( $ctx.result.nextToken )
         ,"nextToken": "$ctx.result.nextToken"
     #end
+}
+EOF
+}
+
+resource "aws_appsync_resolver" "allTodos" {
+  api_id           = aws_appsync_graphql_api.todos_api.id
+  field            = "allTodos"
+  type             = "Query"
+  data_source      = aws_appsync_datasource.todo_datasource.name
+  request_template = <<EOF
+{
+    "version" : "2017-02-28",
+    "operation" : "Scan"
+}
+EOF
+  response_template = <<EOF
+{
+    $util.toJson($ctx.result.items)
 }
 EOF
 }

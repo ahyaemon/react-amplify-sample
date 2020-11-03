@@ -7,7 +7,11 @@ import configure from './aws-exports';
 import {Amplify} from 'aws-amplify'
 import {Provider} from './context/Provider'
 
-Amplify.configure(configure)
+Amplify.configure({
+    ...configure,
+    "aws_user_pools_id": process.env.REACT_APP_USER_POOL_ID,
+    "aws_user_pools_web_client_id": process.env.REACT_APP_USER_POOLS_WEB_CLIENT_ID,
+})
 
 ReactDOM.render(
   <React.StrictMode>

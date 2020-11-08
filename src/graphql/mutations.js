@@ -19,3 +19,12 @@ export const updateTodo = /* GraphQL */ `
     }
   }
 `;
+export const deleteTodo = /* GraphQL */ `
+  mutation DeleteTodo($id: ID!) {
+    deleteTodo(id: $id) {
+      id
+      title
+      owner
+    }
+  }
+`;

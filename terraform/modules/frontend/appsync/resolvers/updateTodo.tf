@@ -19,6 +19,15 @@ resource "aws_appsync_resolver" "updateTodo" {
       "expressionValues" : {
         ":title" : $util.dynamodb.toDynamoDBJson($context.arguments.title)
       }
+    },
+    "condition" : {
+        "expression"       : "#owner = :expectedOwner",
+        "expressionNames"  : {
+          "#owner" : "owner"
+        },
+        "expressionValues" : {
+            ":expectedOwner" : { "S" : "$${context.identity.username}" }
+        }
     }
 }
 EOF

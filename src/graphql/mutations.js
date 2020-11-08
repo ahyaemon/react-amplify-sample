@@ -10,3 +10,12 @@ export const createTodo = /* GraphQL */ `
     }
   }
 `;
+export const updateTodo = /* GraphQL */ `
+  mutation UpdateTodo($id: ID!, $title: String!) {
+    updateTodo(id: $id, title: $title) {
+      id
+      title
+      owner
+    }
+  }
+`;

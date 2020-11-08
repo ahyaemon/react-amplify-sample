@@ -11,6 +11,7 @@ schema {
 type Mutation {
     createTodo(title: String!, owner: String!): Todo
     updateTodo(id: ID!, title: String!): Todo
+    deleteTodo(id: ID!): Todo
 }
 type Query {
     listTodos(count: Int, nextToken: String): PaginatedTodos

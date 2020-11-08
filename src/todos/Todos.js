@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { API, graphqlOperation } from 'aws-amplify'
-import {createTodo, updateTodo} from '../graphql/mutations'
+import {createTodo, deleteTodo, updateTodo} from '../graphql/mutations'
 import {listTodos} from '../graphql/queries'
 import {AuthContext} from '../context/AuthProvider'
 import styles from './Todos.module.css'
@@ -12,21 +12,24 @@ function Todos() {
     const [editableTodo, setEditableTodo] = useState(null)
 
     useEffect(() => {
-        async function fetchTodos() {
-            try {
-                const todoData = await API.graphql(graphqlOperation(listTodos, { count: 20 }))
-                const todos = todoData.data.listTodos.todos
-                setTodos(todos)
-            } catch (e) {
-                console.log('error fetching todos', e)
-            }
-        }
+
         fetchTodos()
         // eslint-disable-next-line
     }, [])
 
+    async function fetchTodos() {
+        try {
+            const todoData = await API.graphql(graphqlOperation(listTodos, { count: 20 }))
+            const todos = todoData.data.listTodos.todos
+            setTodos(todos)
+        } catch (e) {
+            console.log('error fetching todos', e)
+        }
+    }
+
     async function handleAddClick() {
         await API.graphql(graphqlOperation(createTodo, { title: newTodo, owner: authContext.authState.cognitoUsername }))
+        await fetchTodos()
     }
 
     async function handleTodoClick(todo) {
@@ -58,6 +61,14 @@ function Todos() {
         setEditableTodo(null)
     }
 
+    async function handleDeleteClick(todo) {
+        await API.graphql(graphqlOperation(deleteTodo, {id: todo.id}))
+        const newTodos = todos.filter(item => {
+            return item.id !== todo.id
+        })
+        setTodos(newTodos)
+    }
+
     function isEditableTodo(id) {
         if (editableTodo === null) {
             return false
@@ -78,7 +89,8 @@ function Todos() {
                     <thead>
                     <tr>
                         <th>id</th>
-                        <th>title</th>
+                        <th>title(clickで編集)</th>
+                        <th>delete</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -111,6 +123,11 @@ function Todos() {
                                         {todo.title}
                                     </div>
                                     }
+                                </td>
+                                <td>
+                                    <button onClick={ () => { handleDeleteClick(todo) } }>
+                                        delete
+                                    </button>
                                 </td>
                             </tr>
                         ))

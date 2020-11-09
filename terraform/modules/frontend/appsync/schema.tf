@@ -39,3 +39,7 @@ EOF
 output "api_id" {
   value = aws_appsync_graphql_api.todos_api.id
 }
+
+output "graphql_endpoint" {
+  value = aws_appsync_graphql_api.todos_api.uris["GRAPHQL"]
+}

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import configure from './aws-exports';
+import { configure } from './amplify-configure'
 import {Amplify} from 'aws-amplify'
 import {Provider} from './context/Provider'
 

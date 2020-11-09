@@ -9,3 +9,34 @@ resource "aws_ssm_parameter" "user_pools_web_client_id" {
   type  = "SecureString"
   value = aws_cognito_user_pool_client.user_pool_client.id
 }
+
+variable "graphql_endpoint" {}
+resource "aws_ssm_parameter" "graphql_endpoint" {
+  name  = "/cognito/GRAPHQL_ENDPOINT"
+  type  = "SecureString"
+  value = var.graphql_endpoint
+}
+
+resource "aws_ssm_parameter" "authentication_type" {
+  name  = "/cognito/AUTHENTICATION_TYPE"
+  type  = "SecureString"
+  value = "AMAZON_COGNITO_USER_POOLS"
+}
+
+resource "aws_ssm_parameter" "oauth_domain" {
+  name  = "/cognito/OAUTH_DOMAIN"
+  type  = "SecureString"
+  value = "${aws_cognito_user_pool_domain.domain.domain}.auth.ap-northeast-1.amazoncognito.com"
+}
+
+resource "aws_ssm_parameter" "oauth_redirect_sign_in" {
+  name  = "/cognito/OAUTH_REDIRECT_SIGN_IN"
+  type  = "SecureString"
+  value = "http://localhost:3000/"
+}
+
+resource "aws_ssm_parameter" "oauth_redirect_sign_out" {
+  name  = "/cognito/OAUTH_REDIRECT_SIGN_OUT"
+  type  = "SecureString"
+  value = "http://localhost:3000/"
+}

@@ -34,8 +34,8 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
   allowed_oauth_flows                  = ["code"]
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_scopes                 = ["email", "openid", "profile", "aws.cognito.signin.user.admin"]
-  callback_urls                        = ["http://localhost:3000/"]
-  logout_urls                          = ["http://localhost:3000/"]
+  callback_urls                        = ["http://localhost:3000/", var.callback_url,]
+  logout_urls                          = ["http://localhost:3000/", var.callback_url,]
 
   prevent_user_existence_errors = "LEGACY"
   refresh_token_validity        = 30

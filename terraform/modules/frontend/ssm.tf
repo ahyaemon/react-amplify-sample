@@ -32,11 +32,11 @@ resource "aws_ssm_parameter" "oauth_domain" {
 resource "aws_ssm_parameter" "oauth_redirect_sign_in" {
   name  = "/cognito/OAUTH_REDIRECT_SIGN_IN"
   type  = "SecureString"
-  value = "http://localhost:3000/"
+  value = var.callback_url
 }
 
 resource "aws_ssm_parameter" "oauth_redirect_sign_out" {
   name  = "/cognito/OAUTH_REDIRECT_SIGN_OUT"
   type  = "SecureString"
-  value = "http://localhost:3000/"
+  value = var.callback_url
 }

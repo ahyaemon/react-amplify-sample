@@ -48,6 +48,12 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
   viewer_certificate {
     cloudfront_default_certificate = true
   }
+
+  custom_error_response {
+    error_code = 403
+    response_code = 200
+    response_page_path = "/"
+  }
 }
 
 output "cloudfront_domain_name" {

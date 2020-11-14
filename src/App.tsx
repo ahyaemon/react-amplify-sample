@@ -7,6 +7,8 @@ import SignUpConfirm from './auth/SignUpConfirm'
 import { Auth } from 'aws-amplify'
 import {AuthContext} from './context/AuthProvider'
 import Todos from './todos/Todos'
+import {IfSignedIn} from "./IfSignedIn";
+import {IfSignedOut} from "./IfSignedOut";
 
 const styles = {
     app: {
@@ -61,27 +63,30 @@ function App(): ReactElement {
                             Ahyaemon Amplify Sample
                         </Link>
                     </h1>
-                    { authContext.authState.signedIn &&
+                    <IfSignedIn>
                         <p>hello, {authContext.authState.name}</p>
-                    }
+                    </IfSignedIn>
                     <ul>
-                        { !authContext.authState.signedIn &&
+                        <IfSignedOut>
                             <li>
                                 <Link to="/signin">Sign In</Link>
                             </li>
-                        }
-                        { authContext.authState.signedIn &&
+                        </IfSignedOut>
+                        <IfSignedIn>
+                            <li>
+                                <Link to="/profile">
+                                    プロフィール
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/todos">
+                                    TODO
+                                </Link>
+                            </li>
                             <li>
                                 <button type="button" onClick={handleSignOutClick}>Sign Out</button>
                             </li>
-                        }
-                        { authContext.authState.signedIn &&
-                        <li>
-                            <Link to="/todos">
-                                TODO
-                            </Link>
-                        </li>
-                        }
+                        </IfSignedIn>
                     </ul>
                     <hr/>
                 </div>

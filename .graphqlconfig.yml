@@ -1,0 +1,15 @@
+projects:
+  todos_api:
+    schemaPath: terraform/env/prd/frontend/src/graphql/schema.json
+    includes:
+      - src/graphql/**/*.ts
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: typescript
+        generatedFileName: src/API.ts
+        docsFilePath: src/graphql
+        region: ap-northeast-1
+        apiId: hxe65svsfvfqtmczrrextdah3m
+        maxDepth: 2

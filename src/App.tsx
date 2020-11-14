@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React, {ReactElement, useContext, useEffect} from 'react'
 import {BrowserRouter, Link, Route, Switch} from 'react-router-dom'
 import Top from './top/Top'
 import SignIn from './auth/SignIn'
@@ -18,7 +18,7 @@ const styles = {
     }
 }
 
-function App() {
+function App(): ReactElement {
     const authContext = useContext(AuthContext)
     useEffect(() => {
         async function fn() {

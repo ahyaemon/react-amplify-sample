@@ -8,16 +8,18 @@ const authInitialState = {
 
 const authInitialContext = {
     authState: authInitialState,
-    signIn: (name, cognitoUsernamae) => {},
+    signIn: (name: string, cognitoUsernamae: string) => {},
     signOut: () => {},
 }
 
 export const AuthContext = React.createContext(authInitialContext)
 
-export const AuthProvider = ({ children }) => {
+type AuthProviderProps = {}
+
+export const AuthProvider: React.FC<AuthProviderProps> = (props)=> {
     const [authState, setAuthState] = useState(authInitialState)
 
-    function signIn(name, cognitoUsername) {
+    function signIn(name: string, cognitoUsername: string) {
         setAuthState({
             name,
             cognitoUsername,
@@ -35,7 +37,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
        <AuthContext.Provider value={{ authState, signIn, signOut }}>
-           {children}
+           {props.children}
        </AuthContext.Provider>
     )
 }

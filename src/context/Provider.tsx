@@ -2,11 +2,13 @@ import React from 'react'
 import {AuthProvider} from './AuthProvider'
 import {AuthConfirmProvider} from './AuthConfirmProvider'
 
-export const Provider = ({ children }) => {
+type ProviderProps = {}
+
+export const Provider: React.FC<ProviderProps> = (props) => {
     return (
         <AuthProvider>
             <AuthConfirmProvider>
-                { children }
+                { props.children }
             </AuthConfirmProvider>
         </AuthProvider>
     )

@@ -1,8 +1,8 @@
 variable "user_pool_id" {}
 
-resource "aws_appsync_graphql_api" "todos_api" {
+resource "aws_appsync_graphql_api" "graphql_api" {
   authentication_type = "AMAZON_COGNITO_USER_POOLS"
-  name                = "todos_api"
+  name                = "graphql_api"
   schema              = <<EOF
 schema {
     query: Query
@@ -37,9 +37,9 @@ EOF
 }
 
 output "api_id" {
-  value = aws_appsync_graphql_api.todos_api.id
+  value = aws_appsync_graphql_api.graphql_api.id
 }
 
 output "graphql_endpoint" {
-  value = aws_appsync_graphql_api.todos_api.uris["GRAPHQL"]
+  value = aws_appsync_graphql_api.graphql_api.uris["GRAPHQL"]
 }

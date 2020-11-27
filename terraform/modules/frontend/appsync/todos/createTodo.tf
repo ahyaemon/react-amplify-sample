@@ -2,7 +2,7 @@ resource "aws_appsync_resolver" "createTodo" {
   api_id           = var.api_id
   field            = "createTodo"
   type             = "Mutation"
-  data_source      = var.datasource_name
+  data_source      = aws_appsync_datasource.todo_datasource.name
   request_template = <<EOF
 {
     "version" : "2017-02-28",

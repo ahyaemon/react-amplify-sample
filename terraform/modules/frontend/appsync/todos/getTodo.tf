@@ -2,7 +2,7 @@ resource "aws_appsync_resolver" "getTodo" {
   api_id           = var.api_id
   field            = "getTodo"
   type             = "Query"
-  data_source      = var.datasource_name
+  data_source      = aws_appsync_datasource.todo_datasource.name
   request_template = <<EOF
 {
     "version": "2017-02-28",

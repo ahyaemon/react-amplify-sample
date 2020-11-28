@@ -1,0 +1,34 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Mutation {
+    createTodo(title: String!, owner: String!): Todo
+    updateTodo(id: ID!, title: String!): Todo
+    deleteTodo(id: ID!): Todo
+}
+
+type Query {
+    listTodos(count: Int, nextToken: String): PaginatedTodos
+    getTodo(id: ID!): Todo
+    allTodos: [Todo]
+    getUser: User
+}
+
+type Todo {
+    id: ID!
+    title: String!
+    owner: String!
+}
+
+type PaginatedTodos {
+    todos: [Todo]
+    nextToken: String
+}
+
+type User {
+    id: ID!
+    age: Int
+    comment: String
+}

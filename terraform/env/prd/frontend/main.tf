@@ -15,3 +15,9 @@ module "frontend_appsync_todos" {
 
   api_id = module.frontend_appsync.api_id
 }
+
+module "frontend_appsync_users" {
+  source = "../../../modules/frontend/appsync/users"
+
+  api_id = module.frontend_appsync.api_id
+}

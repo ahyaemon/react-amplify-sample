@@ -10,7 +10,7 @@ resource "aws_dynamodb_table" "todos_table" {
 }
 
 resource "aws_appsync_datasource" "todo_datasource" {
-  api_id           = aws_appsync_graphql_api.todos_api.id
+  api_id           = var.api_id
   name             = "todo_datasource"
   service_role_arn = aws_iam_role.appsync_arn.arn
   type             = "AMAZON_DYNAMODB"
@@ -18,8 +18,4 @@ resource "aws_appsync_datasource" "todo_datasource" {
   dynamodb_config {
     table_name = aws_dynamodb_table.todos_table.name
   }
-}
-
-output "datasource_name" {
-  value = aws_appsync_datasource.todo_datasource.name
 }

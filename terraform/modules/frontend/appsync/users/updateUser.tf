@@ -1,8 +1,8 @@
-resource "aws_appsync_resolver" "updateTodo" {
+resource "aws_appsync_resolver" "updateUser" {
   api_id           = var.api_id
-  field            = "updateTodo"
+  field            = "updateUser"
   type             = "Mutation"
-  data_source      = var.datasource_name
+  data_source      = aws_appsync_datasource.user_datasource.name
 
   request_template = <<EOF
 {
@@ -12,18 +12,20 @@ resource "aws_appsync_resolver" "updateTodo" {
       "id" : $util.dynamodb.toDynamoDBJson($context.arguments.id)
     },
     "update" : {
-      "expression" : "SET #title = :title",
+      "expression" : "SET #age = :age, #comment = :comment",
       "expressionNames": {
-        "#title" : "title"
+        "#age" : "age",
+        "#comment" : "comment",
       },
       "expressionValues" : {
-        ":title" : $util.dynamodb.toDynamoDBJson($context.arguments.title)
+        ":age" : $util.dynamodb.toDynamoDBJson($context.arguments.age),
+        ":comment" : $util.dynamodb.toDynamoDBJson($context.arguments.comment),
       }
     },
     "condition" : {
-        "expression"       : "#owner = :expectedOwner",
+        "expression"       : "#id = :expectedOwner",
         "expressionNames"  : {
-          "#owner" : "owner"
+          "#id" : "id"
         },
         "expressionValues" : {
             ":expectedOwner" : { "S" : "$${context.identity.username}" }

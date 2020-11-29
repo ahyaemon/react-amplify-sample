@@ -10,9 +10,14 @@ module "frontend_appsync" {
   user_pool_id = module.frontend.user_pool_id
 }
 
-module "frontend_appsync_resolvers" {
-  source = "../../../modules/frontend/appsync/resolvers"
+module "frontend_appsync_todos" {
+  source = "../../../modules/frontend/appsync/todos"
 
   api_id = module.frontend_appsync.api_id
-  datasource_name = module.frontend_appsync.datasource_name
+}
+
+module "frontend_appsync_users" {
+  source = "../../../modules/frontend/appsync/users"
+
+  api_id = module.frontend_appsync.api_id
 }

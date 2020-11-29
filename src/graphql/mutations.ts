@@ -29,3 +29,12 @@ export const deleteTodo = /* GraphQL */ `
     }
   }
 `;
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser($id: ID!, $age: Int, $comment: String) {
+    updateUser(id: $id, age: $age, comment: $comment) {
+      id
+      age
+      comment
+    }
+  }
+`;

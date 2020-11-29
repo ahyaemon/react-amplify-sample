@@ -43,6 +43,21 @@ export type DeleteTodoMutation = {
   } | null,
 };
 
+export type UpdateUserMutationVariables = {
+  id: string,
+  age?: number | null,
+  comment?: string | null,
+};
+
+export type UpdateUserMutation = {
+  updateUser:  {
+    __typename: "User",
+    id: string,
+    age: number | null,
+    comment: string | null,
+  } | null,
+};
+
 export type ListTodosQueryVariables = {
   count?: number | null,
   nextToken?: string | null,
@@ -81,4 +96,13 @@ export type AllTodosQuery = {
     title: string,
     owner: string,
   } | null > | null,
+};
+
+export type GetUserQuery = {
+  getUser:  {
+    __typename: "User",
+    id: string,
+    age: number | null,
+    comment: string | null,
+  } | null,
 };

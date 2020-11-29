@@ -32,3 +32,12 @@ export const allTodos = /* GraphQL */ `
     }
   }
 `;
+export const getUser = /* GraphQL */ `
+  query GetUser {
+    getUser {
+      id
+      age
+      comment
+    }
+  }
+`;

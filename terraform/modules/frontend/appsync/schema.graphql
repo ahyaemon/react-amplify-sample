@@ -34,4 +34,6 @@ type User {
     id: ID!
     age: Int
     comment: String
+    followingUserIds: [String]
+    followedUserIds: [String]
 }

@@ -17,6 +17,7 @@ type Query {
     allTodos: [Todo]
 
     getUser: User
+    listUsersByIds(ids: [ID!]!, count: Int, nextToken: String): PagenatedUsers
 }
 
 type Todo {
@@ -34,4 +35,11 @@ type User {
     id: ID!
     age: Int
     comment: String
+    followingUserIds: [String]
+    followedUserIds: [String]
+}
+
+type PagenatedUsers {
+    users: [User]
+    nextToken: String
 }

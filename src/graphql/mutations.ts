@@ -35,6 +35,8 @@ export const updateUser = /* GraphQL */ `
       id
       age
       comment
+      followingUserIds
+      followedUserIds
     }
   }
 `;

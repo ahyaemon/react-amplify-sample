@@ -38,6 +38,8 @@ export const getUser = /* GraphQL */ `
       id
       age
       comment
+      followingUserIds
+      followedUserIds
     }
   }
 `;

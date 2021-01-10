@@ -55,6 +55,8 @@ export type UpdateUserMutation = {
     id: string,
     age: number | null,
     comment: string | null,
+    followingUserIds: Array< string | null > | null,
+    followedUserIds: Array< string | null > | null,
   } | null,
 };
 
@@ -104,5 +106,7 @@ export type GetUserQuery = {
     id: string,
     age: number | null,
     comment: string | null,
+    followingUserIds: Array< string | null > | null,
+    followedUserIds: Array< string | null > | null,
   } | null,
 };

@@ -1,21 +1,21 @@
 import {API, graphqlOperation} from "aws-amplify";
-import React, {useContext, useEffect, useState} from "react";
+import React, {ReactElement, useContext, useEffect, useState} from "react";
 import styles from "./Profile.module.css"
 import {getUser} from "../graphql/queries";
 import {AuthContext} from "../context/AuthProvider";
 import {updateUser} from "../graphql/mutations";
 
-type User = {
+interface User {
     id: string
     age: number | null
     comment: string | null
 }
 
-const UserItem: React.FC<User> = ({id, age, comment}) => (
+const UserItem: React.FC<{user: User}> = ({user}) => (
     <div>
-        <p>id: {id}</p>
-        <p>age: {age}</p>
-        <p>comment: {comment}</p>
+        <span>id: {user.id}, </span>
+        <span>age: {user.age}, </span>
+        <span>comment: {user.comment}</span>
     </div>
 )
 
@@ -49,13 +49,11 @@ const EditableInput: React.FC<EditableInputProps> = ({ title, value, editable , 
 type GraphqlResult<T> = { data: T | null }
 
 export const Profile: React.FC = () => {
-    const [id, setId] = useState("gonbey")
-    const [age, setAge] = useState<number | null>(0)
-    const [comment, setComment] = useState<string | null>("comment")
-    const [followingUsers] = useState<User[]>([])
-    const [followedUsers] = useState<User[]>([])
+    const [user, setUser] = useState<User | null>(null);
     const [editable, setEditable] = useState(false)
     const authContext = useContext(AuthContext)
+    const [followingUsers, setFollowingUsers] = useState<User[]>([]);
+    const [followedUsers, setFollowedUsers] = useState<User[]>([]);
 
     useEffect(() => {
         async function fetchUser() {
@@ -66,12 +64,10 @@ export const Profile: React.FC = () => {
 
             } else {
                 const user = data.getUser
-                setAge(user.age)
-                setComment(user.comment)
+                setUser(user)
             }
         }
 
-        setId(authContext.authState.name)
         fetchUser()
     }, [])
 
@@ -80,14 +76,15 @@ export const Profile: React.FC = () => {
     }
 
     async function handleDoneClick() {
+        const a = user && user.age
         try {
             const result = await API.graphql(
                 graphqlOperation(
                     updateUser,
                     {
                         id: authContext.authState.name,
-                        age,
-                        comment,
+                        age: user?.age,
+                        comment: user?.comment,
                     }
                 ),
             ) as GraphqlResult<{ updateUser: User }>
@@ -113,28 +110,46 @@ export const Profile: React.FC = () => {
             }
             <div>
                 <div>
-                    <span>id: {id}</span>
+                    <span>id: {authContext.authState.name}</span>
                 </div>
 
-                <EditableInput title="age" value={age} editable={editable}>
-                    <input type="number" value={age ?? 0} onChange={(e) => { setAge(e.target.valueAsNumber)} }/>
+                <EditableInput title="age" value={user && user.age} editable={editable}>
+                    <input
+                        type="number"
+                        value={ user?.age ?? 0 }
+                        onChange={(e) => {
+                            if (user === null) {
+                                return
+                            }
+                            setUser({ ...user, age: e.target.valueAsNumber })
+                        }}
+                    />
                 </EditableInput>
 
-                <EditableInput title="comment" value={comment} editable={editable}>
-                    <input type="text" value={comment ?? ''} onChange={(e) => {setComment(e.target.value)} }/>
+                <EditableInput title="comment" value={user && user.comment} editable={editable}>
+                    <input
+                        type="text"
+                        value={ user?.comment ?? '' }
+                        onChange={(e) => {
+                            if (user === null) {
+                                return
+                            }
+                            setUser({ ...user, comment: e.target.value})
+                        }}
+                    />
                 </EditableInput>
 
                 <div>
                     <span>following:</span>
-                    <div>
-                        { followingUsers.map(f => UserItem(f)) }
-                    </div>
+                    <ul>
+                        { followingUsers.map(user => (<li><UserItem user={user}/></li>))}
+                    </ul>
                 </div>
 
                 <div>
                     <span>followed:</span>
                     <div>
-                        { followedUsers.map(f => UserItem(f))}
+                        { followedUsers.map(user => (<li><UserItem user={user}/></li>))}
                     </div>
                 </div>
             </div>

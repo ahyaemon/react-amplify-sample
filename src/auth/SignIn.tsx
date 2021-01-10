@@ -1,9 +1,10 @@
-import React, {useContext, useState} from 'react'
+import React, {ReactElement, useContext, useState} from 'react'
 import {Link, useHistory} from 'react-router-dom'
-import { Auth } from 'aws-amplify'
+import {Auth} from 'aws-amplify'
 import {AuthContext} from '../context/AuthProvider'
+import {CognitoHostedUIIdentityProvider} from "@aws-amplify/auth";
 
-function SignIn() {
+function SignIn(): ReactElement {
     const authContext = useContext(AuthContext)
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -21,7 +22,7 @@ function SignIn() {
     }
 
     function handleGoogleSignInClick() {
-        Auth.federatedSignIn({ provider: 'Google' })
+        Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })
             .then(res => {
                 console.log(res)
             })

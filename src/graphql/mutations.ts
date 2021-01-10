@@ -1,3 +1,4 @@
+/* tslint:disable */
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
@@ -25,6 +26,17 @@ export const deleteTodo = /* GraphQL */ `
       id
       title
       owner
+    }
+  }
+`;
+export const updateUser = /* GraphQL */ `
+  mutation UpdateUser($id: ID!, $age: Int, $comment: String) {
+    updateUser(id: $id, age: $age, comment: $comment) {
+      id
+      age
+      comment
+      followingUserIds
+      followedUserIds
     }
   }
 `;

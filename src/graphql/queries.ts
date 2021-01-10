@@ -1,3 +1,4 @@
+/* tslint:disable */
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
@@ -28,6 +29,17 @@ export const allTodos = /* GraphQL */ `
       id
       title
       owner
+    }
+  }
+`;
+export const getUser = /* GraphQL */ `
+  query GetUser {
+    getUser {
+      id
+      age
+      comment
+      followingUserIds
+      followedUserIds
     }
   }
 `;

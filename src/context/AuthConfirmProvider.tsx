@@ -6,20 +6,22 @@ const authConfirmInitialState = {
 
 const authConfirmInitialContext = {
     authConfirmState: authConfirmInitialState,
-    setName: (name) => {}
+    setName: (name: string) => {}
 }
 
 export const AuthConfirmContext = React.createContext(authConfirmInitialContext)
 
-export const AuthConfirmProvider = ({ children }) => {
+type AuthConfirmProviderProps = {}
+
+export const AuthConfirmProvider: React.FC<AuthConfirmProviderProps> = (props) => {
     const [authConfirmState, setAuthConfirmState] = useState(authConfirmInitialState)
 
-    function setName(name) {
+    function setName(name: string) {
         setAuthConfirmState({ name })
     }
     return (
         <AuthConfirmContext.Provider value={{ authConfirmState, setName }}>
-            {children}
+            {props.children}
         </AuthConfirmContext.Provider>
     )
 }

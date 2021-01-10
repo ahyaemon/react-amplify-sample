@@ -1,9 +1,9 @@
-import React, {useContext, useState} from 'react'
+import React, {ReactElement, useContext, useState} from 'react'
 import { Auth } from 'aws-amplify'
 import { useHistory } from 'react-router-dom'
 import {AuthConfirmContext} from '../context/AuthConfirmProvider'
 
-function SignUp() {
+function SignUp(): ReactElement {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")

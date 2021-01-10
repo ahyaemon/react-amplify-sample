@@ -1,1 +1,0 @@
-variable "callback_url" {}

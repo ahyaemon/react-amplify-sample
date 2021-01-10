@@ -17,11 +17,10 @@
     - github
         - branch
             - main
-                - ここにマージされたらデプロイ
-            - develop
                 - default ブランチ
+                - ここにマージされたらデプロイ
             - feature
-                - ここで開発して develop にマージ
+                - ここで開発して main にマージ
     - tech
         - react
         - react-router

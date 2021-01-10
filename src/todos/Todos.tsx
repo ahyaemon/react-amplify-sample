@@ -1,25 +1,29 @@
-import React, {useState, useEffect, useContext} from 'react'
+import React, {useState, useEffect, useContext } from 'react'
 import { API, graphqlOperation } from 'aws-amplify'
 import {createTodo, deleteTodo, updateTodo} from '../graphql/mutations'
 import {listTodos} from '../graphql/queries'
 import {AuthContext} from '../context/AuthProvider'
 import styles from './Todos.module.css'
 
+interface Todo {
+    id: number
+    title: string
+}
+
 function Todos() {
     const authContext = useContext(AuthContext)
-    const [newTodo, setNewTodo] = useState("do anything")
-    const [todos, setTodos] = useState([])
-    const [editableTodo, setEditableTodo] = useState(null)
+    const [newTodo, setNewTodo] = useState<string>("do anything")
+    const [todos, setTodos] = useState<Todo[]>([])
+    const [editableTodo, setEditableTodo] = useState<Todo | null>(null)
 
     useEffect(() => {
-
         fetchTodos()
         // eslint-disable-next-line
     }, [])
 
     async function fetchTodos() {
         try {
-            const todoData = await API.graphql(graphqlOperation(listTodos, { count: 20 }))
+            const todoData = await API.graphql(graphqlOperation(listTodos, { count: 20 })) as any
             const todos = todoData.data.listTodos.todos
             setTodos(todos)
         } catch (e) {
@@ -32,11 +36,11 @@ function Todos() {
         await fetchTodos()
     }
 
-    async function handleTodoClick(todo) {
+    async function handleTodoClick(todo: Todo) {
         setEditableTodo(todo)
     }
 
-    async function handleTodoChange(e, todo) {
+    async function handleTodoChange(e: any, todo: Todo) {
         const fixed = { ...todo, title: e.target.value}
         setEditableTodo(fixed)
     }
@@ -46,6 +50,10 @@ function Todos() {
     }
 
     async function handleUpdateClick() {
+        if (editableTodo === null) {
+            return
+        }
+
         // todos 更新
         const newTodos = todos.map(todo => {
             if (todo.id === editableTodo.id) {
@@ -61,7 +69,7 @@ function Todos() {
         setEditableTodo(null)
     }
 
-    async function handleDeleteClick(todo) {
+    async function handleDeleteClick(todo: Todo) {
         await API.graphql(graphqlOperation(deleteTodo, {id: todo.id}))
         const newTodos = todos.filter(item => {
             return item.id !== todo.id
@@ -69,7 +77,7 @@ function Todos() {
         setTodos(newTodos)
     }
 
-    function isEditableTodo(id) {
+    function isEditableTodo(id: number) {
         if (editableTodo === null) {
             return false
         }
@@ -105,7 +113,7 @@ function Todos() {
                                             type="text"
                                             className={`todo-${todo.id}`}
                                             autoFocus={true}
-                                            value={editableTodo.title}
+                                            value={editableTodo?.title ?? ""}
                                             onChange={ (e) => { handleTodoChange(e, todo) } }
                                         />
                                         <button
